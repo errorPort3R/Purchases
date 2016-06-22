@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Scanner;
 
 /**
@@ -45,17 +46,11 @@ public class PurchasesController
 
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
-    public String home(Model model, String sort_by)
+    public String home(Model model, int sort_by)
     {
-        ArrayList<Purchase> displayPurchases= new ArrayList<>();
-        if (sort_by == null)
-        {
-            sort_by = "all";
-        }
-        If
-
-
-
+        //1=all, 2=furniture, 3=alcohol, 4=shoes, 5=food, 6=jewelry
+        Iterable<Purchase> displayPurchases;
+        displayPurchases = getselectedList(sort_by);
         model.addAttribute("purchase_data", displayPurchases);
         return "home";
     }
@@ -91,6 +86,35 @@ public class PurchasesController
             Purchase purchase = new Purchase(fields[1], ccn, ccv, fields[4], cust);
             purchases.save(purchase);
         }
+    }
+
+    public Iterable<Purchase> getselectedList(int select)
+    {
+        //1=all, 2=furniture, 3=alcohol, 4=shoes, 5=food, 6=jewelry
+        Iterable<Purchase> dispList = new ArrayList<>();
+        switch(select)
+        {
+            case 1:
+                dispList = purchases.findAll();
+                break;
+            case 2:
+                dispList = purchases.findByCategory("Furniture");
+                break;
+            case 3:
+                dispList = purchases.findByCategory("Alcohol");
+                break;
+            case 4:
+                dispList = purchases.findByCategory("Shoes");
+                break;
+            case 5:
+                dispList = purchases.findByCategory("Food");
+                break;
+            case 6:
+                dispList = purchases.findByCategory("Jewelry");
+                break;
+        }
+
+        return dispList;
     }
 
 }
