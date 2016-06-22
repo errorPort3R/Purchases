@@ -1,13 +1,14 @@
 package com.theironyard;
 
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by jeffryporter on 6/22/16.
  */
+
+@Entity
+@Table(name = "customers")
 public class Customer
 {
 
@@ -28,6 +29,36 @@ public class Customer
     public Customer( String name, String email)
     {
         this.name = name;
+        this.email = email;
+    }
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public String getEmail()
+    {
+        return email;
+    }
+
+    public void setEmail(String email)
+    {
         this.email = email;
     }
 }

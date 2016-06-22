@@ -5,21 +5,21 @@
     <title>Home</title>
 </head>
 <body>
-<form action="/" method="get">
-<select style="display: inline;">
-    <option name="sort_by" value="1" default>All</option>
-    <option name="sort_by" value="2">Furniture</option>
-    <option name="sort_by" value="3">Alcohol</option>
-    <option name="sort_by" value="4">Toiletries</option>
-    <option name="sort_by" value="5">Shoes</option>
-    <option name="sort_by" value="6">Food</option>
-    <option name="sort_by" value="7">Jewelry</option>
-</select>
+<form action="/category" method="post">
+    <select style="display: inline;">
+        <option name="sort_by" value="1">All</option>
+        <option name="sort_by" value="2">Furniture</option>
+        <option name="sort_by" value="3">Alcohol</option>
+        <option name="sort_by" value="4">Toiletries</option>
+        <option name="sort_by" value="5">Shoes</option>
+        <option name="sort_by" value="6">Food</option>
+        <option name="sort_by" value="7">Jewelry</option>
+    </select>
     <button type="submit">Refine Results</button>
 </form>
 <br>
 <br>
-<table border=none style="width:100%">
+<table border="none" style="width:100%">
     <tr>
         <th>Name</th>
         <th>Email</th>
@@ -31,7 +31,7 @@
     {{#purchase_data}}
     <tr>
         <td>{{customer.name}}</td>
-        <td>{{email}}</td>
+        <td>{{customer.email}}</td>
         <td>{{Category}}</td>
         <td>{{credit_card}}</td>
         <td>{{ccv}}</td>

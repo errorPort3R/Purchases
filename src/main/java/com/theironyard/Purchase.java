@@ -1,14 +1,14 @@
 package com.theironyard;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import java.util.Date;
+import javax.persistence.*;
 
 /**
  * Created by jeffryporter on 6/22/16.
  */
+
+@Entity
+@Table(name = "purchases")
+
 public class Purchase
 {
     @Id
@@ -19,7 +19,7 @@ public class Purchase
     String date;
 
     @Column(nullable = false)
-    int credit_card;
+    String credit_card;
 
     @Column(nullable = false)
     int ccv;
@@ -34,7 +34,7 @@ public class Purchase
     {
     }
 
-    public Purchase(String date, int credit_card, int ccv, String category, Customer customer)
+    public Purchase(String date, String credit_card, int ccv, String category, Customer customer)
     {
 
         this.date = date;
@@ -43,5 +43,65 @@ public class Purchase
         this.category = category;
         this.customer = customer;
 
+    }
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+
+    public String getDate()
+    {
+        return date;
+    }
+
+    public void setDate(String date)
+    {
+        this.date = date;
+    }
+
+    public String getCredit_card()
+    {
+        return credit_card;
+    }
+
+    public void setCredit_card(String credit_card)
+    {
+        this.credit_card = credit_card;
+    }
+
+    public int getCcv()
+    {
+        return ccv;
+    }
+
+    public void setCcv(int ccv)
+    {
+        this.ccv = ccv;
+    }
+
+    public String getCategory()
+    {
+        return category;
+    }
+
+    public void setCategory(String category)
+    {
+        this.category = category;
+    }
+
+    public Customer getCustomer()
+    {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer)
+    {
+        this.customer = customer;
     }
 }

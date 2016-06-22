@@ -28,6 +28,8 @@ public class PurchasesController
     @Autowired
     PurchasesRepository purchases;
 
+    Iterable<Purchase> displayPurchases;
+
     public static final String CUSTOMER_FILE_LOCATION = "customers.txt";
     public static final String PURCHASE_FILE_LOCATION = "purchases.txt";
 
@@ -42,17 +44,26 @@ public class PurchasesController
         {
             loadPurchases(PURCHASE_FILE_LOCATION);
         }
+        displayPurchases = getselectedList(1);
     }
 
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
-    public String home(Model model, int sort_by)
+    public String home(Model model)
     {
         //1=all, 2=furniture, 3=alcohol, 4=shoes, 5=food, 6=jewelry
-        Iterable<Purchase> displayPurchases;
-        displayPurchases = getselectedList(sort_by);
+
+
         model.addAttribute("purchase_data", displayPurchases);
         return "home";
+    }
+
+    @RequestMapping(path = "/category", method = RequestMethod.POST)
+    public String refineResults(Integer sort_by)
+    {
+        int sortBy = Integer.valueOf(sort_by);
+        displayPurchases = getselectedList(sortBy);
+        return "redirect:/";
     }
 
     public void loadCustomers(String fileLoc) throws FileNotFoundException
@@ -73,23 +84,26 @@ public class PurchasesController
     {
         File f = new File(fileLoc);
         Scanner fileScanner =  new Scanner(f);
+        fileScanner.nextLine();
         while (fileScanner.hasNext())
         {
             String line = fileScanner.nextLine();
             String[] fields = line.split(",");
-
-            int ccn = Integer.valueOf(fields[2]);
             int ccv = Integer.valueOf(fields[3]);
             Customer cust = new Customer();
             cust = customers.findById(Integer.valueOf(fields[0]));
 
-            Purchase purchase = new Purchase(fields[1], ccn, ccv, fields[4], cust);
+            Purchase purchase = new Purchase(fields[1], fields[2], ccv, fields[4], cust);
             purchases.save(purchase);
         }
     }
 
-    public Iterable<Purchase> getselectedList(int select)
+    public Iterable<Purchase> getselectedList(Integer select)
     {
+        if (select == null)
+        {
+            select = 1;
+        }
         //1=all, 2=furniture, 3=alcohol, 4=shoes, 5=food, 6=jewelry
         Iterable<Purchase> dispList = new ArrayList<>();
         switch(select)
@@ -113,8 +127,6 @@ public class PurchasesController
                 dispList = purchases.findByCategory("Jewelry");
                 break;
         }
-
         return dispList;
     }
-
 }
