@@ -28,8 +28,6 @@ public class PurchasesController
     @Autowired
     PurchasesRepository purchases;
 
-    Iterable<Purchase> displayPurchases;
-
     public static final String CUSTOMER_FILE_LOCATION = "customers.txt";
     public static final String PURCHASE_FILE_LOCATION = "purchases.txt";
 
@@ -44,26 +42,16 @@ public class PurchasesController
         {
             loadPurchases(PURCHASE_FILE_LOCATION);
         }
-        displayPurchases = getselectedList(1);
     }
 
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
-    public String home(Model model)
+    public String home(Model model, String sort_by)
     {
-        //1=all, 2=furniture, 3=alcohol, 4=shoes, 5=food, 6=jewelry
-
-
+        Iterable<Purchase> displayPurchases;
+        displayPurchases = getselectedList(sort_by);
         model.addAttribute("purchase_data", displayPurchases);
         return "home";
-    }
-
-    @RequestMapping(path = "/category", method = RequestMethod.POST)
-    public String refineResults(Integer sort_by)
-    {
-        int sortBy = Integer.valueOf(sort_by);
-        displayPurchases = getselectedList(sortBy);
-        return "redirect:/";
     }
 
     public void loadCustomers(String fileLoc) throws FileNotFoundException
@@ -98,35 +86,40 @@ public class PurchasesController
         }
     }
 
-    public Iterable<Purchase> getselectedList(Integer select)
+    public Iterable<Purchase> getselectedList(String select)
     {
         if (select == null)
         {
-            select = 1;
+            select = "all";
         }
         //1=all, 2=furniture, 3=alcohol, 4=shoes, 5=food, 6=jewelry
         Iterable<Purchase> dispList = new ArrayList<>();
         switch(select)
         {
-            case 1:
+            case "all":
                 dispList = purchases.findAll();
                 break;
-            case 2:
+            case "furniture":
                 dispList = purchases.findByCategory("Furniture");
                 break;
-            case 3:
+            case "alcohol":
                 dispList = purchases.findByCategory("Alcohol");
                 break;
-            case 4:
+            case "shoes":
                 dispList = purchases.findByCategory("Shoes");
                 break;
-            case 5:
+            case "toiletries":
+                dispList = purchases.findByCategory("Toiletries");
+                break;
+            case "food":
                 dispList = purchases.findByCategory("Food");
                 break;
-            case 6:
+            case "jewelry":
                 dispList = purchases.findByCategory("Jewelry");
                 break;
         }
+
         return dispList;
     }
+
 }

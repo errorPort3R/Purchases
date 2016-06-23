@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" type="text/css" href="style.css">
     <meta charset="UTF-8">
     <title>Home</title>
 </head>
 <body>
-<form action="/category" method="post">
-    <select style="display: inline;">
-        <option name="sort_by" value="1">All</option>
-        <option name="sort_by" value="2">Furniture</option>
-        <option name="sort_by" value="3">Alcohol</option>
-        <option name="sort_by" value="4">Toiletries</option>
-        <option name="sort_by" value="5">Shoes</option>
-        <option name="sort_by" value="6">Food</option>
-        <option name="sort_by" value="7">Jewelry</option>
+<form action="/" method="get">
+    <select name="sort_by" style="display: inline;">
+        <option value="all" selected>All</option>
+        <option value="furniture">Furniture</option>
+        <option value="alcohol">Alcohol</option>
+        <option value="toiletries">Toiletries</option>
+        <option value="shoes">Shoes</option>
+        <option value="food">Food</option>
+        <option value="jewelry">Jewelry</option>
     </select>
     <button type="submit">Refine Results</button>
 </form>
 <br>
 <br>
-<table border="none" style="width:100%">
+<table id="tab">
     <tr>
         <th>Name</th>
         <th>Email</th>
